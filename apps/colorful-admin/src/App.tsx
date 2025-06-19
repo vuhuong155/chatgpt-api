@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Admin, DataProvider, Resource } from "react-admin";
-import buildGraphQLProvider from "./data-provider/graphqlDataProvider";
+import dataProvider from "./data-provider/graphqlDataProvider";
 import { theme } from "./theme/theme";
 import Login from "./Login";
 import "./App.scss";
@@ -9,22 +9,13 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
+import { MgList } from "./mg/MgList";
+import { MgCreate } from "./mg/MgCreate";
+import { MgEdit } from "./mg/MgEdit";
+import { MgShow } from "./mg/MgShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
-  const [dataProvider, setDataProvider] = useState<DataProvider | null>(null);
-  useEffect(() => {
-    buildGraphQLProvider
-      .then((provider: any) => {
-        setDataProvider(() => provider);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  }, []);
-  if (!dataProvider) {
-    return <div>Loading</div>;
-  }
   return (
     <div className="App">
       <Admin
@@ -41,6 +32,13 @@ const App = (): React.ReactElement => {
           edit={UserEdit}
           create={UserCreate}
           show={UserShow}
+        />
+        <Resource
+          name="Mg"
+          list={MgList}
+          edit={MgEdit}
+          create={MgCreate}
+          show={MgShow}
         />
       </Admin>
     </div>
